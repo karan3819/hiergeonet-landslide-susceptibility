@@ -1,0 +1,48 @@
+name: Integrity checks
+
+# This workflow does NOT run any training pipeline (they require a GPU and
+# the private dataset described in README section 4). It only checks that:
+#   1. Every Python file in this repository (train.py, ablation_study.py,
+#      legacy/run_hiergeonet.py) is syntactically valid, and
+#   2. The legacy single-seed result files in results/ are internally
+#      consistent (e.g. the confusion matrix pixel counts reproduce the
+#      reported precision/recall/F1 to within floating-point tolerance).
+#
+# Why only the legacy results get a numeric consistency check: that file
+# (test_metrics.json) reports metrics from a single confusion matrix, where
+# precision/recall/F1/IoU are related by exact mathematical identities. The
+# current multi-seed file (benchmark_comparison_multiseed.csv) reports MEAN
+# metrics across 6 independent seeds — since averaging is nonlinear ratios
+# and F1(mean(x)) != mean(F1(x)) in general, a model with real seed-to-seed
+# variance (e.g. GAT, CNN) can and does show small, EXPECTED deviations from
+# those same identities applied to its mean values. A CI check built on the
+# raw identity would generate false-positive failures for exactly the models
+# with the most genuine variance, so no such check is included here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Syntax-check train.py
+        run: python -m py_compile train.py
+
+      - name: Syntax-check ablation_study.py
+        run: python -m py_compile ablation_study.py
+
+      - name: Syntax-check legacy/run_hiergeonet.py
+        run: python -m py_compile legacy/run_hiergeonet.py
+
+      - name: Verify legacy results/ files are internally consistent
+        run: python .github/scripts/verify_results_consistency.py
