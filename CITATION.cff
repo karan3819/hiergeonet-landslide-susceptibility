@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the associated paper."
+title: "HierGeoNet: Hierarchical Geo-Graph Attention Network for Landslide Susceptibility Mapping"
+type: software
+authors:
+  - name: "ADD AUTHOR NAME(S) HERE"
+repository-code: "https://github.com/<your-username>/hiergeonet-landslide-susceptibility"
+license: MIT
+version: "2.0.0"
+date-released: "2026-09-25"
+preferred-citation:
+  type: article
+  title: "ADD PAPER TITLE HERE"
+  authors:
+    - name: "ADD AUTHOR NAME(S) HERE"
+  year: 2026
+  journal: "ADD VENUE HERE"
