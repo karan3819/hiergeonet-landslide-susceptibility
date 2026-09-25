@@ -1133,23 +1133,6 @@ def main():
     plt.suptitle("HierGeoNet Predictions", fontweight="bold", fontsize=13); plt.tight_layout()
     plt.savefig(OUT_DIR / "sample_predictions.png", dpi=150, bbox_inches="tight"); plt.close()
     
-    print("\n" + "="*72)
-    print(" IMPORTANT NOTES FOR MANUSCRIPT REVISION:")
-    print(" 1. Methods/Results: Add an explicit sentence stating that final metrics")
-    print("    are now computed on a true held-out test set (n=800), not the")
-    print("    245-patch validation set.")
-    print(f" 2. Operating Point: Add an explicit note that precision/recall/F1 use")
-    print(f"    an F1-optimal threshold ({BEST_THRESHOLD:.4f}) found via precision-recall sweep,")
-    print("    rather than the original fixed 0.801 threshold.")
-    print(" 3. Figures: Regenerate Figure 2 (Confusion Matrix) and Figure 5 using")
-    print("    the output from this run ('roc_confusion.png') to match new numbers.")
-    print(f" 4. Baselines: Are newly trained with the paper's stated weight w+={CFG.POS_WEIGHT}")
-    print("    fixing the miscalibration observed under extreme empirical weighting.")
-    print(" 5. Ablation Study: Check the new absolute and delta metrics for 'w/o medium graph'")
-    print("    across multiple seeds in 'ablation_study.csv' to ensure claims in Section VI.C are stable.")
-    print("="*72 + "\n")
-    print("Pipeline Complete!")
-
 if __name__ == "__main__":
     import multiprocessing
     multiprocessing.freeze_support() 
